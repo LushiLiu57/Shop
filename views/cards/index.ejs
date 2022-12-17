@@ -1,0 +1,14 @@
+<h2>Search Card</h2>
+<form action="/cards" method="GET">
+    <div>
+        <label>Name</label>
+        <input type="text", name="name", value="<%= searchOptions.name %> ">
+    </div>
+    <button type="submit">Search</button>
+</form>
+<br><br>
+<div>
+    <% cards.forEach(card => { %>
+        <img height="200" width = "150" src = "<%= card.cardImagePath %>">
+    <% }) %> 
+</div>

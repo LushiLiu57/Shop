@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const Seller = require('../model/seller')
+const Tribe = require('../model/tribe')
 
 router.get('/', async (req, res) => {
     let searchOptions = {}
@@ -9,8 +9,8 @@ router.get('/', async (req, res) => {
     }
 
     try {
-        const sellers = await Seller.find(searchOptions)
-        res.render('sellers/index', {sellers: sellers, searchOptions: req.query })
+        const tribes = await Tribe.find(searchOptions)
+        res.render('tribes/index', {tribes: tribes, searchOptions: req.query })
     }
     catch {
         res.redirect('/')
@@ -20,21 +20,21 @@ router.get('/', async (req, res) => {
 
 //New Route
 router.get('/new', (req, res) => {
-    res.render('sellers/new', { seller: new Seller() })
+    res.render('tribes/new', { tribe: new Tribe() })
 })
 
 //Create
 router.post('/', async (req, res) => {
-    const seller = new Seller({
+    const tribe = new Tribe({
         name: req.body.name
     })
 
     try {
-        const newSeller = await seller.save()
-        res.redirect(`sellers`)
+        const newTribe = await tribe.save()
+        res.redirect(`tribes`)
     } catch {
-        res.render('sellers/new', {
-            seller: seller,
+        res.render('tribes/new', {
+            tribe: tribe,
             errorMessage: "Create ERROR"
         })
     }

@@ -8,8 +8,8 @@ const expressLayouts = require('express-ejs-layouts')
 const bodyParser = require('body-parser')
 
 const iRouter = require('./routes/index')
-const sellerRouter = require('./routes/sellers')
-const itemRouter = require('./routes/items')
+const tribeRouter = require('./routes/tribes')
+const cardRouter = require('./routes/cards')
 
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
@@ -26,7 +26,7 @@ db.on('error', error => console.error(error))
 db.once('open', () => console.log('CONNECTED'))
 
 app.use('/', iRouter)
-app.use('/sellers', sellerRouter)
-app.use('/items', itemRouter)
+app.use('/tribes', tribeRouter)
+app.use('/cards', cardRouter)
 
 app.listen(process.env.PORT || 3002)

@@ -4,44 +4,42 @@ const cardImageBasePath = 'uploads/cardImages'
 
 const path = require('path')
 
-const itemSchema = new mongoose.Schema({
+const cardSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
-    datePosted: {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
-    price: {
+    tier: {
         type: Number,
         required: true 
     },
-    grade: {
+    attack: {
+        type: Number,
+        required: true 
+    },
+    health: {
         type: Number,
         required: true
     },
     cardText: {
         type: String,
-        required: true
     },
-    seller: {
+    tribe: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Seller'
+        ref: 'Tribe'
     },
-    itemImage: {
+    cardImage: {
         type: String,
         required: true
     }
 })
 
-itemSchema.virtual('itemImagePath').get(function() {
-    if (this.itemImage != null) {
-        return path.join('/', cardImageBasePath, this.itemImage)
+cardSchema.virtual('cardImagePath').get(function() {
+    if (this.cardImage != null) {
+        return path.join('/', cardImageBasePath, this.cardImage)
     }
 })
 
-module.exports = mongoose.model('Item', itemSchema)
+module.exports = mongoose.model('Card', cardSchema)
 module.exports.cardImageBasePath = cardImageBasePath

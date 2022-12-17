@@ -1,0 +1,42 @@
+<div>
+    <label>Card</label>
+    <input type="text" name="name" value="<%= card.name %>">
+</div>
+<!-- <div>
+    <label>Date Posted</label>
+    <input type="date" name="datePosted" 
+        value="<%= card.datePosted == null ? '' : 
+        card.datePosted.toISOString().split('T')[0] %>">
+</div> -->
+<div>
+    <label>Tribe</label>
+    <select name="tribe">
+        <% tribes.forEach(tribe => { %>
+            <% if (tribe.id === card.tribe) { %>
+                <option selected label="<%= tribe.name %>" value="<%= tribe.id %>">
+            <% } else { %>
+                <option label="<%= tribe.name %>" value="<%= tribe.id %>">
+            <% } %> 
+        <% }) %>
+    </select>
+</div>
+<div>
+    <label>Tier</label>
+    <input type="number" name="tier" min="1" value="<%= card.tier %>">
+</div>
+<div>
+    <label>Attack</label>
+    <input type="number" name="attack" min="0" value="<%= card.attack %>">
+</div>
+<div>
+    <label>Health</label>
+    <input type="number" name="health" min="1" value="<%= card.health %>">
+</div>
+<div>
+    <label>cardText</label>
+    <textarea name="cardText"><%= card.cardText %></textarea>
+</div>
+<div>
+    <label>cardImage</label>
+    <input type="file" name="cardImage">
+</div>

@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const Item = require('../model/item')
-const Seller = require('../model/seller')
+const Card = require('../model/card')
+const Tribe = require('../model/tribe')
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
-const uploadPath = path.join('public', Item.cardImageBasePath)
+const uploadPath = path.join('public', Card.cardImageBasePath)
 const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
 const upload = multer({
     dest: uploadPath,
@@ -15,14 +15,14 @@ const upload = multer({
 })
 
 router.get('/', async (req, res) => {
-    let query = Item.find()
+    let query = Card.find()
     if (req.query.name != null && req.query.name != '') {
         query = query.regex('name', new RegExp(req.query.name, 'i'))
     }
     try {
-        const items = await query.exec()
-        res.render('items/index', {
-            items: items,
+        const cards = await query.exec()
+        res.render('cards/index', {
+            cards: cards,
             searchOptions: req.query
         })
     }
@@ -34,45 +34,45 @@ router.get('/', async (req, res) => {
 
 //New Route
 router.get('/new', async (req, res) => {
-    loadNewPage(res, new Item())
+    loadNewPage(res, new Card())
 })
 
 //Create
-router.post('/', upload.single('itemImage'), async (req, res) => {
+router.post('/', upload.single('cardImage'), async (req, res) => {
     const fileName = req.file != null ? req.file.filename : null
-    const item = new Item({
+    const card = new Card({
         name: req.body.name,
-        datePosted: new Date(req.body.datePosted),
-        seller: req.body.seller,
-        price: req.body.price,
-        grade: req.body.grade,
+        tribe: req.body.tribe,
+        tier: req.body.tier,
+        attack: req.body.attack,
+        health: req.body.health,
         cardText: req.body.cardText,
-        itemImage: fileName
+        cardImage: fileName
     })
 
     try {
-        const newItem = await item.save()
-        //res.redirect(`item/${newItem.id}`)
-        res.redirect('items')
+        const newCard = await card.save()
+        //res.redirect(`card/${newCard.id}`)
+        res.redirect('cards')
     } catch {
-        if (item.itemImage != null) {
-            removeImage(item.itemImage)
+        if (card.cardImage != null) {
+            removeImage(card.cardImage)
         }
-        loadNewPage(res, item, true)
+        loadNewPage(res, card, true)
     }
 })
 
-async function loadNewPage (res, item, hasError = false) {
+async function loadNewPage (res, card, hasError = false) {
     try {
-        const sellers = await Seller.find({})
+        const tribes = await Tribe.find({})
         const param = {
-            sellers: sellers,
-            item: item
+            tribes: tribes,
+            card: card
         }
-        if (hasError) param.errorMessage = 'Error Creating Item'
-        res.render('items/new', param)
+        if (hasError) param.errorMessage = 'Error Creating Card'
+        res.render('cards/new', param)
     } catch {
-        res.redirect('/items')
+        res.redirect('/cards')
     }
 }
 

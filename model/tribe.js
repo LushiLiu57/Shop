@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
-const sellerSchema = new mongoose.Schema({
+const tribeSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     }
 })
 
-module.exports = mongoose.model('Seller', sellerSchema)
+module.exports = mongoose.model('Tribe', tribeSchema)
